@@ -1,5 +1,4 @@
-import { type MotionValue, motion, useScroll, useTransform } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 
@@ -14,42 +13,28 @@ export function MacbookScroll({
   badge?: React.ReactNode
   className?: string
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.15, isMobile ? 1 : 1.5])
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.55, isMobile ? 1 : 1.5])
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1200])
-  const rotate = useTransform(scrollYProgress, [0.1, 0.3], [-24, 0])
-  const textOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
-  const textTranslateY = useTransform(scrollYProgress, [0, 0.1], [0, -80])
-
   return (
     <div
-      ref={ref}
       className={cn(
-        'relative flex min-h-[140vh] shrink-0 scale-[0.35] flex-col items-center justify-start py-0 sm:scale-50 md:scale-100',
+        'relative flex shrink-0 flex-col items-center justify-start py-8',
         className,
       )}
     >
-      <motion.div
-        style={{ translateY: textTranslateY, opacity: textOpacity }}
-        className="mb-16 flex flex-col items-center text-center"
-      >
-        {badge}
-        <h2 className="mt-4 max-w-lg text-3xl font-bold sm:text-4xl">{title}</h2>
-      </motion.div>
+      {(badge || title) && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
+          className="mb-10 flex flex-col items-center text-center"
+        >
+          {badge}
+          {title ? <h2 className="mt-4 max-w-lg text-3xl font-bold sm:text-4xl">{title}</h2> : null}
+        </motion.div>
+      )}
 
       {/* Lid */}
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} translate={translate} />
+      <Lid src={src} />
 
       {/* Base */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -75,19 +60,7 @@ export function MacbookScroll({
   )
 }
 
-function Lid({
-  src,
-  scaleX,
-  scaleY,
-  rotate,
-  translate,
-}: {
-  src: string
-  scaleX: MotionValue<number>
-  scaleY: MotionValue<number>
-  rotate: MotionValue<number>
-  translate: MotionValue<number>
-}) {
+function Lid({ src }: { src: string }) {
   return (
     <div className="relative [perspective:800px]">
       <div
@@ -103,7 +76,11 @@ function Lid({
       </div>
 
       <motion.div
-        style={{ scaleX, scaleY, rotateX: rotate, translateY: translate, transformStyle: 'preserve-3d', transformOrigin: 'top' }}
+        initial={{ scaleX: 1.15, scaleY: 0.6, rotateX: -24, transformPerspective: 800 }}
+        whileInView={{ scaleX: 1, scaleY: 1, rotateX: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.9, ease: 'easeOut', delay: 0.15 }}
+        style={{ transformStyle: 'preserve-3d', transformOrigin: 'top' }}
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
