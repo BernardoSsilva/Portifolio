@@ -14,6 +14,7 @@ export const projects: Project[] = [
       'Sistema full stack de gestão financeira, organizando receitas e despesas com arquitetura escalável. Backend em .NET com Domain-Driven Design e testes unitários; frontend em Next.js com UI moderna.',
     tags: ['.NET', 'DDD', 'Next.js', 'TypeScript'],
     stars: 0,
+    image: '/screenshots/gestyou/transacoes.webp',
     links: [{ label: 'Repositório', url: 'https://github.com/BernardoSsilva/GestYou' }],
   },
   {
