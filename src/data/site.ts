@@ -3,7 +3,6 @@ export const siteConfig = {
   role: 'Engenheiro de Software em formação',
   tagline: 'Construo aplicações web full stack com React, .NET e Next.js.',
   location: 'Brasil',
-  avatarUrl: 'https://avatars.githubusercontent.com/u/126777966?v=4',
   githubUrl: 'https://github.com/BernardoSsilva',
   email: 'bernardo.ssilva0808@gmail.com',
   /**

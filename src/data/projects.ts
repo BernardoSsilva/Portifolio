@@ -4,6 +4,7 @@ export type Project = {
   tags: string[]
   stars: number
   links: { label: string; url: string }[]
+  image?: string
 }
 
 export const projects: Project[] = [
@@ -21,6 +22,7 @@ export const projects: Project[] = [
       'Plataforma criada em 48h para centralizar recursos de ajuda humanitária: abrigos, distribuição de alimentos e assistência médica. API em .NET com arquitetura DDD e PostgreSQL; frontend em React, Next.js e TailwindCSS.',
     tags: ['React', 'Next.js', 'TailwindCSS', '.NET', 'PostgreSQL'],
     stars: 2,
+    image: '/screenshots/hackathon/abigo.webp',
     links: [
       { label: 'Frontend', url: 'https://github.com/BernardoSsilva/Hackathon-FrontEnd' },
       { label: 'Backend', url: 'https://github.com/BernardoSsilva/Hackathon-backend' },

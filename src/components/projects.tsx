@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { projects } from '@/data/projects'
 import { siteConfig } from '@/data/site'
+import { cn } from '@/lib/utils'
 
 export function Projects() {
   return (
@@ -28,41 +29,57 @@ export function Projects() {
           {projects.map((project) => (
             <Card
               key={project.title}
-              className="justify-between hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10"
+              className={cn(
+                'justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
+                project.image && 'gap-0 p-0',
+              )}
             >
-              <CardHeader>
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle>{project.title}</CardTitle>
-                  {project.stars > 0 ? (
-                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
-                      <Star className="size-3.5 fill-primary text-primary" />
-                      {project.stars}
-                    </span>
-                  ) : null}
+              {project.image ? (
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={`Captura de tela — ${project.title}`}
+                    loading="lazy"
+                    className="size-full object-cover object-top"
+                  />
                 </div>
-                <CardDescription>{project.description}</CardDescription>
-              </CardHeader>
+              ) : null}
 
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
+              <div className={cn('flex flex-1 flex-col gap-4', project.image && 'p-6')}>
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle>{project.title}</CardTitle>
+                    {project.stars > 0 ? (
+                      <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                        <Star className="size-3.5 fill-primary text-primary" />
+                        {project.stars}
+                      </span>
+                    ) : null}
+                  </div>
+                  <CardDescription>{project.description}</CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <Badge key={tag} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+
+                <CardFooter className="flex-wrap">
+                  {project.links.map((link) => (
+                    <Button key={link.url} variant="outline" size="sm" asChild>
+                      <a href={link.url} target="_blank" rel="noreferrer">
+                        {link.label}
+                        <ArrowUpRight />
+                      </a>
+                    </Button>
                   ))}
-                </div>
-              </CardContent>
-
-              <CardFooter className="flex-wrap">
-                {project.links.map((link) => (
-                  <Button key={link.url} variant="outline" size="sm" asChild>
-                    <a href={link.url} target="_blank" rel="noreferrer">
-                      {link.label}
-                      <ArrowUpRight />
-                    </a>
-                  </Button>
-                ))}
-              </CardFooter>
+                </CardFooter>
+              </div>
             </Card>
           ))}
         </div>
