@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 270 45% 99%;
+    --foreground: 262 35% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 262 35% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 262 35% 11%;
+
+    --primary: 270 60% 58%;
+    --primary-foreground: 270 100% 99%;
+
+    --secondary: 270 35% 95%;
+    --secondary-foreground: 262 30% 20%;
+
+    --muted: 270 25% 95%;
+    --muted-foreground: 262 15% 42%;
+
+    --accent: 270 60% 93%;
+    --accent-foreground: 270 55% 28%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 270 25% 89%;
+    --input: 270 25% 89%;
+    --ring: 270 60% 58%;
+
+    --radius: 0.9rem;
+  }
+
+  .dark {
+    --background: 260 38% 6%;
+    --foreground: 270 30% 96%;
+
+    --card: 261 32% 9%;
+    --card-foreground: 270 30% 96%;
+
+    --popover: 261 32% 9%;
+    --popover-foreground: 270 30% 96%;
+
+    --primary: 270 85% 78%;
+    --primary-foreground: 261 45% 12%;
+
+    --secondary: 260 22% 15%;
+    --secondary-foreground: 270 30% 92%;
+
+    --muted: 260 22% 15%;
+    --muted-foreground: 270 15% 66%;
+
+    --accent: 265 40% 20%;
+    --accent-foreground: 270 60% 90%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 260 20% 19%;
+    --input: 260 20% 19%;
+    --ring: 270 85% 78%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/25 text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-gradient-lilac {
+    @apply bg-gradient-to-r from-[hsl(270,90%,68%)] via-[hsl(280,85%,72%)] to-[hsl(255,85%,72%)] bg-clip-text text-transparent;
+  }
+
+  .section-padding {
+    @apply py-20 sm:py-28;
+  }
+}
