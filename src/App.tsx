@@ -1,4 +1,5 @@
 import { About } from '@/components/about'
+import { Collaborations } from '@/components/collaborations'
 import { Contact } from '@/components/contact'
 import { Footer } from '@/components/footer'
 import { Hero } from '@/components/hero'
@@ -17,6 +18,7 @@ function App() {
         <LexNoteShowcase />
         <About />
         <Projects />
+        <Collaborations />
         <Contact />
       </main>
       <Footer />
