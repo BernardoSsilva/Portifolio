@@ -6,6 +6,7 @@ import { type LightboxImage, ImageLightbox } from '@/components/image-lightbox'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { useCardSpotlight } from '@/components/ui/card-spotlight'
 import { type Project, projects } from '@/data/projects'
 import { siteConfig } from '@/data/site'
 import { cn } from '@/lib/utils'
@@ -86,6 +87,7 @@ function ProjectCard({
   const images = project.images ?? []
   const [frame, setFrame] = useState(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const spotlight = useCardSpotlight()
 
   useEffect(() => () => stopCarousel(), [])
 
@@ -107,11 +109,16 @@ function ProjectCard({
 
   return (
     <Card
+      onMouseMove={spotlight.onMouseMove}
+      onMouseEnter={spotlight.onMouseEnter}
+      onMouseLeave={spotlight.onMouseLeave}
       className={cn(
-        'justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
+        'relative justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
         images.length > 0 && 'gap-0 p-0',
       )}
     >
+      {spotlight.spotlightOverlay}
+
       {images.length > 0 ? (
         <button
           type="button"

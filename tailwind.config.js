@@ -85,12 +85,16 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-12px)' },
         },
+        'scroll-x': {
+          to: { transform: 'translate(calc(-50% - 0.5rem))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-up': 'fade-up 0.7s ease-out both',
         float: 'float 6s ease-in-out infinite',
+        'scroll-x': 'scroll-x var(--animation-duration,40s) var(--animation-direction,forwards) linear infinite',
       },
       backgroundImage: {
         'lilac-glow':

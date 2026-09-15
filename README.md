@@ -23,8 +23,8 @@ Outros scripts:
 Toda a informação de contato e conteúdo dinâmico fica em `src/data/`:
 
 - `src/data/site.ts` — nome, cargo, e-mail, link do GitHub e **número de
-  WhatsApp**. Antes de publicar, troque `whatsappNumber` pelo número real no
-  formato internacional, só dígitos (ex: `5548999999999`).
+  WhatsApp** (`whatsappNumber`, formato internacional só dígitos: DDI + DDD +
+  número).
 - `src/data/projects.ts` — cards de projetos exibidos na seção "Projetos". Cada
   projeto pode ter um array `images` (múltiplas capturas de tela) usado no
   carrossel automático ao passar o mouse sobre o card.
@@ -41,9 +41,14 @@ proporção 16:10 para não cortar o conteúdo nos cards).
 - [Tailwind CSS](https://tailwindcss.com) com tema em variáveis CSS (lilás)
 - Componentes no padrão [shadcn/ui](https://ui.shadcn.com) (`src/components/ui`)
 - Componentes inspirados na [Aceternity UI](https://ui.aceternity.com), com
-  [Framer Motion](https://www.framer.com/motion/): `container-text-flip` (texto
-  giratório no hero) e `macbook-scroll` (MacBook com animação de abertura ao
-  entrar na tela, estilo fey.com, usado no slider de projetos em destaque)
+  [Framer Motion](https://www.framer.com/motion/):
+  - `container-text-flip` — texto giratório no hero
+  - `macbook-scroll` — MacBook cuja abertura acompanha o scroll (`useScroll` +
+    `useTransform`), estilo fey.com, usado no slider de projetos em destaque
+  - `infinite-moving-cards` — marquee horizontal infinito com as habilidades,
+    na seção "Sobre" (pausa ao passar o mouse)
+  - `card-spotlight` — brilho radial que segue o cursor sobre os cards de
+    projeto (hook `useCardSpotlight`)
 - `Dialog` (Radix UI) como base do `ImageLightbox`, usado para ampliar
   qualquer captura de tela do site com navegação entre imagens
 - Ícones [lucide-react](https://lucide.dev)
