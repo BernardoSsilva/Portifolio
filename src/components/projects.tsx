@@ -1,6 +1,8 @@
-import { ArrowUpRight, Star } from 'lucide-react'
+import { ArrowUpRight, Maximize2, Star } from 'lucide-react'
+import { useState } from 'react'
 
 import { GithubIcon } from '@/components/icons'
+import { type LightboxImage, ImageLightbox } from '@/components/image-lightbox'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,7 +10,13 @@ import { projects } from '@/data/projects'
 import { siteConfig } from '@/data/site'
 import { cn } from '@/lib/utils'
 
+const galleryImages: LightboxImage[] = projects
+  .filter((project) => project.image)
+  .map((project) => ({ src: project.image!, alt: `Captura de tela — ${project.title}`, caption: project.title }))
+
 export function Projects() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
   return (
     <section id="projects" className="section-padding bg-secondary/30">
       <div className="container">
@@ -35,14 +43,24 @@ export function Projects() {
               )}
             >
               {project.image ? (
-                <div className="aspect-video overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxIndex(galleryImages.findIndex((image) => image.src === project.image))
+                  }
+                  className="group/image relative aspect-video overflow-hidden outline-none"
+                  aria-label={`Ampliar captura de tela de ${project.title}`}
+                >
                   <img
                     src={project.image}
                     alt={`Captura de tela — ${project.title}`}
                     loading="lazy"
-                    className="size-full object-cover object-top"
+                    className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
                   />
-                </div>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
+                    <Maximize2 className="size-6 text-white" />
+                  </div>
+                </button>
               ) : null}
 
               <div className={cn('flex flex-1 flex-col gap-4', project.image && 'p-6')}>
@@ -93,6 +111,8 @@ export function Projects() {
           </Button>
         </div>
       </div>
+
+      <ImageLightbox images={galleryImages} index={lightboxIndex} onIndexChange={setLightboxIndex} />
     </section>
   )
 }
