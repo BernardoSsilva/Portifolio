@@ -75,7 +75,9 @@ alternar entre eles:
 As capturas de tela do NAVLA e do Nesso foram recriadas em HTML/CSS a partir
 de imagens de referência enviadas pelo autor (o ambiente de execução não
 permite salvar imagens coladas diretamente no chat como arquivo) — ficam em
-`public/screenshots/navla/` e `public/screenshots/nesso/`.
+`public/screenshots/navla/` e `public/screenshots/nesso/`. O mesmo vale para
+as capturas do projeto Imobiliária (`public/screenshots/imobiliaria/`),
+recriadas a partir de prints do frontend reestruturado.
 
 ## Contato via WhatsApp e e-mail
 
