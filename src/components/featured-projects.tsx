@@ -46,10 +46,6 @@ export function FeaturedProjects() {
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             Do meu portfólio a colaborações em equipe
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Um projeto pessoal e duas colaborações com outros desenvolvedores — arraste para o
-            lado e confira cada um.
-          </p>
         </div>
 
         <div className="mx-auto mt-8 flex max-w-xl items-center justify-center gap-3">
