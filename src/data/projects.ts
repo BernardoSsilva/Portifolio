@@ -52,9 +52,16 @@ export const projects: Project[] = [
   {
     title: 'Imobiliária',
     description:
-      'Plataforma para gestão e divulgação de imóveis, com frontend em React/TypeScript e API REST em C#/.NET.',
+      'Plataforma para gestão e divulgação de imóveis, com frontend em React/TypeScript e API REST em C#/.NET. Painel administrativo para cadastro de imóveis e usuários, além de site público para os clientes.',
     tags: ['React', 'TypeScript', 'C#', '.NET'],
     stars: 0,
+    images: [
+      '/screenshots/imobiliaria/home.webp',
+      '/screenshots/imobiliaria/imoveis.webp',
+      '/screenshots/imobiliaria/detalhes.webp',
+      '/screenshots/imobiliaria/usuarios.webp',
+      '/screenshots/imobiliaria/login.webp',
+    ],
     links: [
       { label: 'Frontend', url: 'https://github.com/BernardoSsilva/Imobiliaria-Frontend' },
       { label: 'Backend', url: 'https://github.com/BernardoSsilva/imobiliaria-backend' },
