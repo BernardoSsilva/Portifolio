@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 
@@ -84,11 +84,18 @@ function Lid({ src }: { src: string }) {
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        <img
-          src={src}
-          alt="screenshot"
-          className="absolute inset-0 size-full rounded-lg object-cover object-top"
-        />
+        <AnimatePresence mode="sync">
+          <motion.img
+            key={src}
+            src={src}
+            alt="screenshot"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="absolute inset-0 size-full rounded-lg object-cover object-top"
+          />
+        </AnimatePresence>
       </motion.div>
     </div>
   )

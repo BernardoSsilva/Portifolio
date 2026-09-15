@@ -25,11 +25,15 @@ Toda a informação de contato e conteúdo dinâmico fica em `src/data/`:
 - `src/data/site.ts` — nome, cargo, e-mail, link do GitHub e **número de
   WhatsApp**. Antes de publicar, troque `whatsappNumber` pelo número real no
   formato internacional, só dígitos (ex: `5548999999999`).
-- `src/data/projects.ts` — cards de projetos exibidos na seção "Projetos".
+- `src/data/projects.ts` — cards de projetos exibidos na seção "Projetos". Cada
+  projeto pode ter um array `images` (múltiplas capturas de tela) usado no
+  carrossel automático ao passar o mouse sobre o card.
 - `src/data/skills.ts` — grupos de habilidades exibidos na seção "Sobre".
-- `src/data/lexnote.ts` — texto e capturas de tela da seção de destaque do LexNote.
+- `src/data/featured-projects.ts` — texto e capturas de tela do slider de
+  projetos em destaque (LexNote, NAVLA e Nesso).
 
-Capturas de tela ficam em `public/screenshots/` (formato `.webp`, otimizadas).
+Capturas de tela ficam em `public/screenshots/` (formato `.webp`, otimizadas,
+proporção 16:10 para não cortar o conteúdo nos cards).
 
 ## Stack
 
@@ -38,18 +42,29 @@ Capturas de tela ficam em `public/screenshots/` (formato `.webp`, otimizadas).
 - Componentes no padrão [shadcn/ui](https://ui.shadcn.com) (`src/components/ui`)
 - Componentes inspirados na [Aceternity UI](https://ui.aceternity.com), com
   [Framer Motion](https://www.framer.com/motion/): `container-text-flip` (texto
-  giratório no hero) e `macbook-scroll` (MacBook animado ao rolar a página,
-  estilo fey.com, usado na seção de destaque do LexNote)
+  giratório no hero) e `macbook-scroll` (MacBook com animação de abertura ao
+  entrar na tela, estilo fey.com, usado no slider de projetos em destaque)
+- `Dialog` (Radix UI) como base do `ImageLightbox`, usado para ampliar
+  qualquer captura de tela do site com navegação entre imagens
 - Ícones [lucide-react](https://lucide.dev)
 
-## Seção de destaque: LexNote
+## Slider de projetos em destaque
 
-A seção `LexNoteShowcase` (`src/components/lexnote-showcase.tsx`) mostra
-capturas de tela reais do [LexNote](https://github.com/BernardoSsilva/LexNote)
-dentro de um `MacbookScroll` (desktop) com fallback estático em telas
-pequenas, além de uma galeria com outras telas do produto. Como o repositório
-é privado, o card não linka para o GitHub — em vez disso oferece um botão de
-WhatsApp para pedir uma demonstração.
+A seção `FeaturedProjects` (`src/components/featured-projects.tsx`) mostra um
+slider com três projetos dentro de um `MacbookScroll`, com abas e setas para
+alternar entre eles:
+
+- **LexNote** — projeto pessoal, repositório privado (botão de WhatsApp para
+  pedir demonstração).
+- **NAVLA** — colaboração em equipe onde atuo como desenvolvedor backend
+  (link para a aplicação em produção).
+- **Nesso** — colaboração em equipe (3 desenvolvedores) ainda em
+  desenvolvimento como full stack.
+
+As capturas de tela do NAVLA e do Nesso foram recriadas em HTML/CSS a partir
+de imagens de referência enviadas pelo autor (o ambiente de execução não
+permite salvar imagens coladas diretamente no chat como arquivo) — ficam em
+`public/screenshots/navla/` e `public/screenshots/nesso/`.
 
 ## Contato via WhatsApp e e-mail
 
