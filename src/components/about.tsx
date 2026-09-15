@@ -20,8 +20,8 @@ export function About() {
             Curioso por código, apaixonado por resolver problemas
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Sou {siteConfig.role.toLowerCase()} baseado no {siteConfig.location}, com
-            experiência construindo aplicações full stack — de APIs em .NET e Python a
+            Sou {siteConfig.role.toLowerCase()}, com
+            experiência construindo aplicações full stack — de APIs em .NET, Python e NestJs a
             interfaces em React e Next.js. Já participei de hackathons, projetos
             acadêmicos e desafios técnicos, sempre buscando código limpo e arquitetura
             bem pensada.
