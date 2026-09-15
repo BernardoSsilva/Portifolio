@@ -49,6 +49,12 @@ proporção 16:10 para não cortar o conteúdo nos cards).
     na seção "Sobre" (pausa ao passar o mouse)
   - `card-spotlight` — brilho radial que segue o cursor sobre os cards de
     projeto (hook `useCardSpotlight`)
+  - `three-d-card` — efeito "3D Card" nos cards de projeto: o card inteiro
+    inclina em perspectiva conforme o cursor se move (`CardContainer`),
+    com a imagem e o conteúdo em camadas de profundidade (`CardBody`/`CardItem`)
+  - `hero-parallax` — fundo do Hero com camadas de capturas de tela reais
+    em paralaxe (`useScroll` + `useTransform`/`useSpring`), que se afastam
+    e desaparecem conforme o usuário rola a página
 - `Dialog` (Radix UI) como base do `ImageLightbox`, usado para ampliar
   qualquer captura de tela do site com navegação entre imagens
 - Ícones [lucide-react](https://lucide.dev)

@@ -5,8 +5,9 @@ import { GithubIcon } from '@/components/icons'
 import { type LightboxImage, ImageLightbox } from '@/components/image-lightbox'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { useCardSpotlight } from '@/components/ui/card-spotlight'
+import { CardBody, CardContainer, CardItem } from '@/components/ui/three-d-card'
 import { type Project, projects } from '@/data/projects'
 import { siteConfig } from '@/data/site'
 import { cn } from '@/lib/utils'
@@ -108,86 +109,99 @@ function ProjectCard({
   }
 
   return (
-    <Card
+    <CardContainer
+      containerClassName="w-full py-0"
+      className="w-full"
       onMouseMove={spotlight.onMouseMove}
       onMouseEnter={spotlight.onMouseEnter}
       onMouseLeave={spotlight.onMouseLeave}
-      className={cn(
-        'relative justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
-        images.length > 0 && 'gap-0 p-0',
-      )}
     >
-      {spotlight.spotlightOverlay}
+      <CardBody
+        className={cn(
+          'relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10',
+          images.length === 0 && 'gap-4 p-6',
+        )}
+      >
+        {spotlight.spotlightOverlay}
 
-      {images.length > 0 ? (
-        <button
-          type="button"
-          onMouseEnter={startCarousel}
-          onMouseLeave={stopCarousel}
-          onClick={() => onOpenImage(frame)}
-          className="group/image relative aspect-[16/10] overflow-hidden outline-none"
-          aria-label={`Ampliar captura de tela de ${project.title}`}
-        >
-          <img
-            src={images[frame]}
-            alt={`Captura de tela — ${project.title}`}
-            loading="lazy"
-            className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
-            <Maximize2 className="size-6 text-white" />
-          </div>
-          {images.length > 1 ? (
-            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
-              {images.map((src, i) => (
-                <span
-                  key={src}
-                  className={cn(
-                    'size-1.5 rounded-full transition-colors',
-                    i === frame ? 'bg-white' : 'bg-white/40',
-                  )}
-                />
-              ))}
+        {images.length > 0 ? (
+          <CardItem
+            as="button"
+            type="button"
+            translateZ={60}
+            onMouseEnter={startCarousel}
+            onMouseLeave={stopCarousel}
+            onClick={() => onOpenImage(frame)}
+            className="group/image relative aspect-[16/10] w-full overflow-hidden outline-none"
+            aria-label={`Ampliar captura de tela de ${project.title}`}
+          >
+            <img
+              src={images[frame]}
+              alt={`Captura de tela — ${project.title}`}
+              loading="lazy"
+              className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
+              <Maximize2 className="size-6 text-white" />
             </div>
-          ) : null}
-        </button>
-      ) : null}
-
-      <div className={cn('flex flex-1 flex-col gap-4', images.length > 0 && 'p-6')}>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-2">
-            <CardTitle>{project.title}</CardTitle>
-            {project.stars > 0 ? (
-              <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
-                <Star className="size-3.5 fill-primary text-primary" />
-                {project.stars}
-              </span>
+            {images.length > 1 ? (
+              <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+                {images.map((src, i) => (
+                  <span
+                    key={src}
+                    className={cn(
+                      'size-1.5 rounded-full transition-colors',
+                      i === frame ? 'bg-white' : 'bg-white/40',
+                    )}
+                  />
+                ))}
+              </div>
             ) : null}
-          </div>
-          <CardDescription>{project.description}</CardDescription>
-        </CardHeader>
+          </CardItem>
+        ) : null}
 
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <Badge key={tag} variant="outline">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
+        <div className={cn('flex flex-1 flex-col gap-4', images.length > 0 && 'p-6')}>
+          <CardItem translateZ={40} className="w-full">
+            <CardHeader className="p-0">
+              <div className="flex items-start justify-between gap-2">
+                <CardTitle>{project.title}</CardTitle>
+                {project.stars > 0 ? (
+                  <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                    <Star className="size-3.5 fill-primary text-primary" />
+                    {project.stars}
+                  </span>
+                ) : null}
+              </div>
+              <CardDescription>{project.description}</CardDescription>
+            </CardHeader>
+          </CardItem>
 
-        <CardFooter className="flex-wrap">
-          {project.links.map((link) => (
-            <Button key={link.url} variant="outline" size="sm" asChild>
-              <a href={link.url} target="_blank" rel="noreferrer">
-                {link.label}
-                <ArrowUpRight />
-              </a>
-            </Button>
-          ))}
-        </CardFooter>
-      </div>
-    </Card>
+          <CardItem translateZ={30} className="w-full">
+            <CardContent className="p-0">
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </CardItem>
+
+          <CardItem translateZ={50} className="w-full">
+            <CardFooter className="flex-wrap p-0">
+              {project.links.map((link) => (
+                <Button key={link.url} variant="outline" size="sm" asChild>
+                  <a href={link.url} target="_blank" rel="noreferrer">
+                    {link.label}
+                    <ArrowUpRight />
+                  </a>
+                </Button>
+              ))}
+            </CardFooter>
+          </CardItem>
+        </div>
+      </CardBody>
+    </CardContainer>
   )
 }
