@@ -2,8 +2,11 @@ import { Code2, MapPin, Sparkle } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
 import { skillGroups } from '@/data/skills'
 import { siteConfig } from '@/data/site'
+
+const allSkills = skillGroups.flatMap((group) => group.skills)
 
 export function About() {
   return (
@@ -53,6 +56,10 @@ export function About() {
             </Card>
           ))}
         </div>
+      </div>
+
+      <div className="mt-12">
+        <InfiniteMovingCards items={allSkills} speed="slow" />
       </div>
     </section>
   )

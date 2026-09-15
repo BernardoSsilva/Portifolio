@@ -7,9 +7,10 @@ export const siteConfig = {
   email: 'bernardo.ssilva0808@gmail.com',
   /**
    * Formato internacional sem espaços, símbolos ou "+" (DDI + DDD + número).
-   * Troque pelo número real antes de publicar, ex: "5548999999999".
+   * DDI 55 (Brasil) adicionado na frente do número informado (48998529084)
+   * para o link do wa.me funcionar corretamente em qualquer dispositivo.
    */
-  whatsappNumber: 'SEU_NUMERO_AQUI',
+  whatsappNumber: '5548998529084',
   whatsappDefaultMessage:
     'Olá, Bernardo! Vi seu portfólio e gostaria de conversar sobre uma oportunidade.',
 }

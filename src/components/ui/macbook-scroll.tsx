@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, type MotionValue, motion, useScroll, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -13,28 +14,30 @@ export function MacbookScroll({
   badge?: React.ReactNode
   className?: string
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'start start'],
+  })
+
+  const scaleX = useTransform(scrollYProgress, [0, 1], [1.15, 1])
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, 1])
+  const rotate = useTransform(scrollYProgress, [0, 1], [-24, 0])
+
   return (
     <div
-      className={cn(
-        'relative flex shrink-0 flex-col items-center justify-start py-8',
-        className,
-      )}
+      ref={ref}
+      className={cn('relative flex flex-col items-center justify-start py-8', className)}
     >
       {(badge || title) && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.4 }}
-          transition={{ duration: 0.5 }}
-          className="mb-10 flex flex-col items-center text-center"
-        >
+        <div className="mb-10 flex flex-col items-center text-center">
           {badge}
           {title ? <h2 className="mt-4 max-w-lg text-3xl font-bold sm:text-4xl">{title}</h2> : null}
-        </motion.div>
+        </div>
       )}
 
       {/* Lid */}
-      <Lid src={src} />
+      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} />
 
       {/* Base */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -60,7 +63,17 @@ export function MacbookScroll({
   )
 }
 
-function Lid({ src }: { src: string }) {
+function Lid({
+  src,
+  scaleX,
+  scaleY,
+  rotate,
+}: {
+  src: string
+  scaleX: MotionValue<number>
+  scaleY: MotionValue<number>
+  rotate: MotionValue<number>
+}) {
   return (
     <div className="relative [perspective:800px]">
       <div
@@ -76,12 +89,8 @@ function Lid({ src }: { src: string }) {
       </div>
 
       <motion.div
-        initial={{ scaleX: 1.15, scaleY: 0.6, rotateX: -24, transformPerspective: 800 }}
-        whileInView={{ scaleX: 1, scaleY: 1, rotateX: 0 }}
-        viewport={{ once: false, amount: 0.4 }}
-        transition={{ duration: 0.9, ease: 'easeOut', delay: 0.15 }}
-        style={{ transformStyle: 'preserve-3d', transformOrigin: 'top' }}
-        className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
+        style={{ scaleX, scaleY, rotateX: rotate, transformStyle: 'preserve-3d', transformOrigin: 'top' }}
+        className="absolute inset-0 h-[20rem] w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
         <AnimatePresence mode="sync">
