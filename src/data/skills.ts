@@ -9,7 +9,7 @@ export const skillGroups = [
   },
   {
     title: 'Arquitetura & Dados',
-    skills: ['Domain-Driven Design', 'REST APIs', 'PostgreSQL', 'SQL Server', 'Testes Unitários', 'SQL Server'],
+    skills: ['Domain-Driven Design', 'REST APIs', 'PostgreSQL', 'SQL Server', 'Testes Unitários'],
   },
   {
     title: 'Ferramentas',
