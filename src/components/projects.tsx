@@ -1,14 +1,37 @@
-import { ArrowUpRight, Star } from 'lucide-react'
+import { ArrowUpRight, Maximize2, Star } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 import { GithubIcon } from '@/components/icons'
+import { type LightboxImage, ImageLightbox } from '@/components/image-lightbox'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { projects } from '@/data/projects'
+import { type Project, projects } from '@/data/projects'
 import { siteConfig } from '@/data/site'
 import { cn } from '@/lib/utils'
 
+const CAROUSEL_INTERVAL = 1400
+
+const galleryImages: LightboxImage[] = projects.flatMap((project) =>
+  (project.images ?? []).map((src) => ({
+    src,
+    alt: `Captura de tela — ${project.title}`,
+    caption: project.title,
+  })),
+)
+
+const galleryStartIndex = new Map<string, number>()
+{
+  let cursor = 0
+  for (const project of projects) {
+    galleryStartIndex.set(project.title, cursor)
+    cursor += project.images?.length ?? 0
+  }
+}
+
 export function Projects() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
   return (
     <section id="projects" className="section-padding bg-secondary/30">
       <div className="container">
@@ -21,66 +44,20 @@ export function Projects() {
           </h2>
           <p className="mt-4 text-muted-foreground">
             Uma seleção de projetos pessoais, acadêmicos e de hackathons — do backend
-            à interface, sempre aprendendo algo novo em cada um.
+            à interface, sempre aprendendo algo novo em cada um. Passe o mouse sobre os prints
+            para ver mais telas.
           </p>
         </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card
+            <ProjectCard
               key={project.title}
-              className={cn(
-                'justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
-                project.image && 'gap-0 p-0',
-              )}
-            >
-              {project.image ? (
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={`Captura de tela — ${project.title}`}
-                    loading="lazy"
-                    className="size-full object-cover object-top"
-                  />
-                </div>
-              ) : null}
-
-              <div className={cn('flex flex-1 flex-col gap-4', project.image && 'p-6')}>
-                <CardHeader>
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle>{project.title}</CardTitle>
-                    {project.stars > 0 ? (
-                      <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
-                        <Star className="size-3.5 fill-primary text-primary" />
-                        {project.stars}
-                      </span>
-                    ) : null}
-                  </div>
-                  <CardDescription>{project.description}</CardDescription>
-                </CardHeader>
-
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-
-                <CardFooter className="flex-wrap">
-                  {project.links.map((link) => (
-                    <Button key={link.url} variant="outline" size="sm" asChild>
-                      <a href={link.url} target="_blank" rel="noreferrer">
-                        {link.label}
-                        <ArrowUpRight />
-                      </a>
-                    </Button>
-                  ))}
-                </CardFooter>
-              </div>
-            </Card>
+              project={project}
+              onOpenImage={(localIndex) =>
+                setLightboxIndex((galleryStartIndex.get(project.title) ?? 0) + localIndex)
+              }
+            />
           ))}
         </div>
 
@@ -93,6 +70,117 @@ export function Projects() {
           </Button>
         </div>
       </div>
+
+      <ImageLightbox images={galleryImages} index={lightboxIndex} onIndexChange={setLightboxIndex} />
     </section>
+  )
+}
+
+function ProjectCard({
+  project,
+  onOpenImage,
+}: {
+  project: Project
+  onOpenImage: (localIndex: number) => void
+}) {
+  const images = project.images ?? []
+  const [frame, setFrame] = useState(0)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => () => stopCarousel(), [])
+
+  function startCarousel() {
+    if (images.length <= 1) return
+    stopCarousel()
+    intervalRef.current = setInterval(() => {
+      setFrame((prev) => (prev + 1) % images.length)
+    }, CAROUSEL_INTERVAL)
+  }
+
+  function stopCarousel() {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
+    }
+    setFrame(0)
+  }
+
+  return (
+    <Card
+      className={cn(
+        'justify-between overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10',
+        images.length > 0 && 'gap-0 p-0',
+      )}
+    >
+      {images.length > 0 ? (
+        <button
+          type="button"
+          onMouseEnter={startCarousel}
+          onMouseLeave={stopCarousel}
+          onClick={() => onOpenImage(frame)}
+          className="group/image relative aspect-[16/10] overflow-hidden outline-none"
+          aria-label={`Ampliar captura de tela de ${project.title}`}
+        >
+          <img
+            src={images[frame]}
+            alt={`Captura de tela — ${project.title}`}
+            loading="lazy"
+            className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
+            <Maximize2 className="size-6 text-white" />
+          </div>
+          {images.length > 1 ? (
+            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+              {images.map((src, i) => (
+                <span
+                  key={src}
+                  className={cn(
+                    'size-1.5 rounded-full transition-colors',
+                    i === frame ? 'bg-white' : 'bg-white/40',
+                  )}
+                />
+              ))}
+            </div>
+          ) : null}
+        </button>
+      ) : null}
+
+      <div className={cn('flex flex-1 flex-col gap-4', images.length > 0 && 'p-6')}>
+        <CardHeader>
+          <div className="flex items-start justify-between gap-2">
+            <CardTitle>{project.title}</CardTitle>
+            {project.stars > 0 ? (
+              <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                <Star className="size-3.5 fill-primary text-primary" />
+                {project.stars}
+              </span>
+            ) : null}
+          </div>
+          <CardDescription>{project.description}</CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex-wrap">
+          {project.links.map((link) => (
+            <Button key={link.url} variant="outline" size="sm" asChild>
+              <a href={link.url} target="_blank" rel="noreferrer">
+                {link.label}
+                <ArrowUpRight />
+              </a>
+            </Button>
+          ))}
+        </CardFooter>
+      </div>
+    </Card>
   )
 }

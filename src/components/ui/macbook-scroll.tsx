@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 
@@ -24,7 +24,7 @@ export function MacbookScroll({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.5 }}
           className="mb-10 flex flex-col items-center text-center"
         >
@@ -78,17 +78,24 @@ function Lid({ src }: { src: string }) {
       <motion.div
         initial={{ scaleX: 1.15, scaleY: 0.6, rotateX: -24, transformPerspective: 800 }}
         whileInView={{ scaleX: 1, scaleY: 1, rotateX: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+        viewport={{ once: false, amount: 0.4 }}
         transition={{ duration: 0.9, ease: 'easeOut', delay: 0.15 }}
         style={{ transformStyle: 'preserve-3d', transformOrigin: 'top' }}
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        <img
-          src={src}
-          alt="screenshot"
-          className="absolute inset-0 size-full rounded-lg object-cover object-top"
-        />
+        <AnimatePresence mode="sync">
+          <motion.img
+            key={src}
+            src={src}
+            alt="screenshot"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="absolute inset-0 size-full rounded-lg object-cover object-top"
+          />
+        </AnimatePresence>
       </motion.div>
     </div>
   )
