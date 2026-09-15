@@ -4,7 +4,7 @@ export type Project = {
   tags: string[]
   stars: number
   links: { label: string; url: string }[]
-  image?: string
+  images?: string[]
 }
 
 export const projects: Project[] = [
@@ -14,7 +14,11 @@ export const projects: Project[] = [
       'Sistema full stack de gestão financeira, organizando receitas e despesas com arquitetura escalável. Backend em .NET com Domain-Driven Design e testes unitários; frontend em Next.js com UI moderna.',
     tags: ['.NET', 'DDD', 'Next.js', 'TypeScript'],
     stars: 0,
-    image: '/screenshots/gestyou/transacoes.webp',
+    images: [
+      '/screenshots/gestyou/transacoes.webp',
+      '/screenshots/gestyou/pessoas.webp',
+      '/screenshots/gestyou/total-por-pessoa.webp',
+    ],
     links: [{ label: 'Repositório', url: 'https://github.com/BernardoSsilva/GestYou' }],
   },
   {
@@ -23,7 +27,11 @@ export const projects: Project[] = [
       'Plataforma criada em 48h para centralizar recursos de ajuda humanitária: abrigos, distribuição de alimentos e assistência médica. API em .NET com arquitetura DDD e PostgreSQL; frontend em React, Next.js e TailwindCSS.',
     tags: ['React', 'Next.js', 'TailwindCSS', '.NET', 'PostgreSQL'],
     stars: 2,
-    image: '/screenshots/hackathon/abigo.webp',
+    images: [
+      '/screenshots/hackathon/abigo.webp',
+      '/screenshots/hackathon/home.webp',
+      '/screenshots/hackathon/cadastro.webp',
+    ],
     links: [
       { label: 'Frontend', url: 'https://github.com/BernardoSsilva/Hackathon-FrontEnd' },
       { label: 'Backend', url: 'https://github.com/BernardoSsilva/Hackathon-backend' },
@@ -32,9 +40,10 @@ export const projects: Project[] = [
   {
     title: 'Forenser',
     description:
-      'Aplicação para gestão de processos e laudos periciais, com frontend em React/TypeScript e API em C#/.NET.',
+      'Portal para registro de boletins de ocorrência, denúncias anônimas, agendamentos e geração de retrato falado com IA, com frontend em React/TypeScript e API em C#/.NET.',
     tags: ['React', 'TypeScript', 'C#', '.NET'],
     stars: 3,
+    images: ['/screenshots/forenser/dashboard.webp'],
     links: [
       { label: 'Frontend', url: 'https://github.com/BernardoSsilva/Forenser' },
       { label: 'Backend', url: 'https://github.com/BernardoSsilva/Forenser-backend' },
