@@ -1,6 +1,7 @@
 import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react'
 
 import { ContainerTextFlip } from '@/components/ui/container-text-flip'
+import { HeroParallaxBackground } from '@/components/ui/hero-parallax'
 import { Button } from '@/components/ui/button'
 import { getWhatsappLink, siteConfig } from '@/data/site'
 
@@ -12,6 +13,7 @@ export function Hero() {
       id="home"
       className="relative flex min-h-screen items-center overflow-hidden pt-16"
     >
+      <HeroParallaxBackground />
       <div className="bg-lilac-glow pointer-events-none absolute inset-x-0 top-0 h-[640px]" />
       <div
         aria-hidden
