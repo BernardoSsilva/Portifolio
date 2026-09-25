@@ -43,7 +43,14 @@ export const projects: Project[] = [
       'Portal para registro de boletins de ocorrência, denúncias anônimas, agendamentos e geração de retrato falado com IA, com frontend em React/TypeScript e API em C#/.NET.',
     tags: ['React', 'TypeScript', 'C#', '.NET'],
     stars: 3,
-    images: ['/screenshots/forenser/dashboard.webp'],
+    images: [
+      '/screenshots/forenser/dashboard.webp',
+      '/screenshots/forenser/boletim.webp',
+      '/screenshots/forenser/retrato-falado.webp',
+      '/screenshots/forenser/denuncia.webp',
+      '/screenshots/forenser/agendamento.webp',
+      '/screenshots/forenser/login.webp',
+    ],
     links: [
       { label: 'Frontend', url: 'https://github.com/BernardoSsilva/Forenser' },
       { label: 'Backend', url: 'https://github.com/BernardoSsilva/Forenser-backend' },

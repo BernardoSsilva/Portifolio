@@ -20,9 +20,10 @@ export function MacbookScroll({
     offset: ['start end', 'start start'],
   })
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.1, 1.5])
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.6, 1].5)
+  const scaleX = useTransform(scrollYProgress, [0, 1], [1.15, 1])
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, 1])
   const rotate = useTransform(scrollYProgress, [0, 1], [-24, 0])
+  const bleed = useTransform(scrollYProgress, [0.85, 1], [0, 12], { clamp: true })
 
   return (
     <div
@@ -37,7 +38,7 @@ export function MacbookScroll({
       )}
 
       {/* Lid */}
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} />
+      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} bleed={bleed} />
 
       {/* Base */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -68,12 +69,17 @@ function Lid({
   scaleX,
   scaleY,
   rotate,
+  bleed,
 }: {
   src: string
   scaleX: MotionValue<number>
   scaleY: MotionValue<number>
   rotate: MotionValue<number>
+  bleed: MotionValue<number>
 }) {
+  const negBleed = useTransform(bleed, (v) => -v)
+  const bledSize = useTransform(bleed, (v) => `calc(100% + ${v * 2}px)`)
+
   return (
     <div className="relative [perspective:800px]">
       <div
@@ -92,7 +98,10 @@ function Lid({
         style={{ scaleX, scaleY, rotateX: rotate, transformStyle: 'preserve-3d', transformOrigin: 'top' }}
         className="absolute inset-0 h-[20rem] w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
-        <div className="absolute -inset-3 rounded-lg bg-[#272729]" />
+        <motion.div
+          style={{ top: negBleed, right: negBleed, bottom: negBleed, left: negBleed }}
+          className="absolute rounded-lg bg-[#272729]"
+        />
         <AnimatePresence mode="sync">
           <motion.img
             key={src}
@@ -102,7 +111,8 @@ function Lid({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="absolute -inset-3 size-[calc(100%+1.5rem)] max-w-none rounded-lg object-cover object-top shadow-xl"
+            style={{ top: negBleed, right: negBleed, bottom: negBleed, left: negBleed, width: bledSize, height: bledSize }}
+            className="absolute max-w-none rounded-lg object-cover object-top shadow-xl"
           />
         </AnimatePresence>
       </motion.div>
