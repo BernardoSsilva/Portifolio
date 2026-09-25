@@ -21,7 +21,7 @@ export function MacbookScroll({
   })
 
   const scaleX = useTransform(scrollYProgress, [0, 1], [1.15, 1])
-  const scaleY = useTransform(scrollYProgress, [0, 1], [3, 1])
+  const scaleY = useTransform(scrollYProgress, [0, 3], [0.6, 1])
   const rotate = useTransform(scrollYProgress, [0, 1], [-24, 0])
 
   return (
