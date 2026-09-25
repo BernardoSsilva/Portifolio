@@ -102,7 +102,7 @@ function Lid({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="absolute -inset-3 rounded-lg object-cover object-top shadow-xl"
+            className="absolute -inset-3 size-[calc(100%+1.5rem)] max-w-none rounded-lg object-cover object-top shadow-xl"
           />
         </AnimatePresence>
       </motion.div>
