@@ -72,11 +72,14 @@ alternar entre eles:
 - **Nesso** — colaboração em equipe (3 desenvolvedores) ainda em
   desenvolvimento como full stack.
 
-As capturas de tela do NAVLA e do Nesso foram recriadas em HTML/CSS a partir
-de imagens de referência enviadas pelo autor (o ambiente de execução não
-permite salvar imagens coladas diretamente no chat como arquivo) — ficam em
-`public/screenshots/navla/` e `public/screenshots/nesso/`. O mesmo vale para
-as capturas do projeto Imobiliária (`public/screenshots/imobiliaria/`),
+As capturas de tela do NAVLA (`public/screenshots/navla/`) são reais,
+extraídas rodando o próprio frontend localmente em modo de demonstração
+(dados em memória, sem precisar do backend em produção). As do Nesso
+(`public/screenshots/nesso/`) foram recriadas em HTML/CSS a partir de
+imagens de referência enviadas pelo autor, já que o frontend do Nesso ainda
+não está publicado em lugar nenhum (o ambiente de execução também não
+permite salvar imagens coladas diretamente no chat como arquivo). O mesmo
+vale para as capturas do projeto Imobiliária (`public/screenshots/imobiliaria/`),
 recriadas a partir de prints do frontend reestruturado.
 
 ## Contato via WhatsApp e e-mail
