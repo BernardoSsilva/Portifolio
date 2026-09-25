@@ -92,7 +92,7 @@ function Lid({
         style={{ scaleX, scaleY, rotateX: rotate, transformStyle: 'preserve-3d', transformOrigin: 'top' }}
         className="absolute inset-0 h-[20rem] w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
-        <div className="absolute inset-0 rounded-lg bg-[#272729]" />
+        <div className="absolute -inset-3 rounded-lg bg-[#272729]" />
         <AnimatePresence mode="sync">
           <motion.img
             key={src}
@@ -102,7 +102,7 @@ function Lid({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="absolute inset-0 size-full rounded-lg object-cover object-top"
+            className="absolute -inset-3 rounded-lg object-cover object-top shadow-xl"
           />
         </AnimatePresence>
       </motion.div>
