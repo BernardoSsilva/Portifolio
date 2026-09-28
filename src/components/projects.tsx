@@ -110,13 +110,13 @@ function ProjectCard({
 
   return (
     <CardContainer
-      containerClassName="w-full py-0"
+      containerClassName="h-full w-full items-stretch py-0"
       className="w-full"
       onMouseMove={spotlight.onMouseMove}
       onMouseEnter={spotlight.onMouseEnter}
       onMouseLeave={spotlight.onMouseLeave}
     >
-      <CardBody className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10">
+      <CardBody className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10">
         {spotlight.spotlightOverlay}
 
         {images.length > 0 ? (
