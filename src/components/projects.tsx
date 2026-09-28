@@ -1,4 +1,4 @@
-import { ArrowUpRight, Maximize2, Star } from 'lucide-react'
+import { ArrowUpRight, Maximize2, Server, Star } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { GithubIcon } from '@/components/icons'
@@ -110,18 +110,13 @@ function ProjectCard({
 
   return (
     <CardContainer
-      containerClassName="w-full py-0"
+      containerClassName="h-full w-full items-stretch py-0"
       className="w-full"
       onMouseMove={spotlight.onMouseMove}
       onMouseEnter={spotlight.onMouseEnter}
       onMouseLeave={spotlight.onMouseLeave}
     >
-      <CardBody
-        className={cn(
-          'relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10',
-          images.length === 0 && 'gap-4 p-6',
-        )}
-      >
+      <CardBody className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10">
         {spotlight.spotlightOverlay}
 
         {images.length > 0 ? (
@@ -158,9 +153,16 @@ function ProjectCard({
               </div>
             ) : null}
           </CardItem>
-        ) : null}
+        ) : (
+          <CardItem
+            translateZ={60}
+            className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-lilac-glow"
+          >
+            <Server className="size-12 text-primary/50" strokeWidth={1.25} />
+          </CardItem>
+        )}
 
-        <div className={cn('flex flex-1 flex-col gap-4', images.length > 0 && 'p-6')}>
+        <div className="flex flex-1 flex-col gap-4 p-6">
           <CardItem translateZ={40} className="w-full">
             <CardHeader className="p-0">
               <div className="flex items-start justify-between gap-2">
@@ -188,7 +190,7 @@ function ProjectCard({
             </CardContent>
           </CardItem>
 
-          <CardItem translateZ={50} className="w-full">
+          <CardItem translateZ={50} className="mt-auto w-full">
             <CardFooter className="flex-wrap p-0">
               {project.links.map((link) => (
                 <Button key={link.url} variant="outline" size="sm" asChild>

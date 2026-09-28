@@ -75,6 +75,23 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: 'Help Desk',
+    description:
+      'Sistema de gestão de tickets de suporte, com dashboard de indicadores, histórico completo de cada chamado (status, prioridade, responsável e comentários) e gestão de usuários. API em Node.js/Express com Prisma e PostgreSQL; frontend em React com Material UI.',
+    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'Prisma', 'PostgreSQL'],
+    stars: 0,
+    images: [
+      '/screenshots/helpdesk/dashboard.webp',
+      '/screenshots/helpdesk/tickets.webp',
+      '/screenshots/helpdesk/ticket-detail.webp',
+      '/screenshots/helpdesk/meus-tickets.webp',
+      '/screenshots/helpdesk/novo-ticket.webp',
+      '/screenshots/helpdesk/usuarios.webp',
+      '/screenshots/helpdesk/login.webp',
+    ],
+    links: [{ label: 'Repositório', url: 'https://github.com/BernardoSsilva/HelpDesk' }],
+  },
+  {
     title: 'StoryTrails API',
     description:
       'API REST para o app Story Trails, com uma implementação em .NET e outra em Python/Django, explorando diferentes stacks para o mesmo domínio.',
@@ -84,13 +101,5 @@ export const projects: Project[] = [
       { label: 'API .NET', url: 'https://github.com/BernardoSsilva/StoryTrails_backEnd' },
       { label: 'API Python', url: 'https://github.com/BernardoSsilva/StoryTrailsPython' },
     ],
-  },
-  {
-    title: 'Pill Reminder API',
-    description:
-      'API desenvolvida em C#/.NET com Entity Framework Core para apoiar um app de lembretes de medicação em React Native, projeto de conclusão de curso.',
-    tags: ['C#', '.NET', 'Entity Framework', 'API REST'],
-    stars: 1,
-    links: [{ label: 'Repositório', url: 'https://github.com/BernardoSsilva/PillReminderBackend' }],
   },
 ]
