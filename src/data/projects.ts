@@ -102,12 +102,4 @@ export const projects: Project[] = [
       { label: 'API Python', url: 'https://github.com/BernardoSsilva/StoryTrailsPython' },
     ],
   },
-  {
-    title: 'Pill Reminder API',
-    description:
-      'API desenvolvida em C#/.NET com Entity Framework Core para apoiar um app de lembretes de medicação em React Native, projeto de conclusão de curso.',
-    tags: ['C#', '.NET', 'Entity Framework', 'API REST'],
-    stars: 1,
-    links: [{ label: 'Repositório', url: 'https://github.com/BernardoSsilva/PillReminderBackend' }],
-  },
 ]
