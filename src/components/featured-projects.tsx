@@ -160,7 +160,7 @@ export function FeaturedProjects() {
             {active.gallery.map((shot, i) => (
               <figure
                 key={shot.src}
-                className="group overflow-hidden rounded-xl border border-border/60 bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10"
+                className="group overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10"
               >
                 <button
                   type="button"
