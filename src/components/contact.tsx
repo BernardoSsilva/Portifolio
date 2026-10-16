@@ -1,31 +1,19 @@
-import { Mail, MapPin, MessageCircle } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { getMailtoLink, getWhatsappLink, siteConfig } from '@/data/site'
+import { getMailtoLink, siteConfig } from '@/data/site'
 
 export function Contact() {
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
 
-  const whatsappMessage = name
-    ? `Olá, Bernardo! Meu nome é ${name}. ${message || 'Gostaria de conversar sobre uma oportunidade.'}`
-    : message || undefined
-
   const emailBody = name ? `Meu nome é ${name}.\n\n${message}` : message
-
-  function openChannel(channel: 'whatsapp' | 'email') {
-    const url =
-      channel === 'whatsapp'
-        ? getWhatsappLink(whatsappMessage)
-        : getMailtoLink('Contato via portfólio', emailBody)
-    window.open(url, '_blank', 'noreferrer')
-  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    openChannel('whatsapp')
+    window.open(getMailtoLink('Contato via portfólio', emailBody), '_blank', 'noreferrer')
   }
 
   return (
@@ -40,50 +28,30 @@ export function Contact() {
           </h2>
           <p className="mt-4 text-muted-foreground">
             Estou aberto a novas oportunidades, projetos freelance e boas conversas
-            sobre tecnologia. Escolha o canal que preferir.
+            sobre tecnologia. Me manda um e-mail.
           </p>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-3xl gap-6 sm:grid-cols-2">
-          <Card className="items-start gap-4 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
-            <div className="flex size-11 items-center justify-center rounded-full bg-primary/15 text-primary">
-              <MessageCircle className="size-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold">WhatsApp</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Resposta rápida para conversar sobre projetos e oportunidades.
-              </p>
-            </div>
-            <Button asChild className="w-full">
-              <a href={getWhatsappLink()} target="_blank" rel="noreferrer">
-                Chamar no WhatsApp
-              </a>
-            </Button>
-          </Card>
-
-          <Card className="items-start gap-4 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
-            <div className="flex size-11 items-center justify-center rounded-full bg-primary/15 text-primary">
-              <Mail className="size-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold">E-mail</h3>
-              <p className="mt-1 break-all text-sm text-muted-foreground">{siteConfig.email}</p>
-            </div>
-            <Button variant="outline" asChild className="w-full">
-              <a href={getMailtoLink()} target="_blank" rel="noreferrer">
-                Enviar e-mail
-              </a>
-            </Button>
-          </Card>
-        </div>
+        <Card className="mx-auto mt-14 max-w-sm items-start gap-4 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+          <div className="flex size-11 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <Mail className="size-5" />
+          </div>
+          <div>
+            <h3 className="font-semibold">E-mail</h3>
+            <p className="mt-1 break-all text-sm text-muted-foreground">{siteConfig.email}</p>
+          </div>
+          <Button asChild className="w-full">
+            <a href={getMailtoLink()} target="_blank" rel="noreferrer">
+              Enviar e-mail
+            </a>
+          </Button>
+        </Card>
 
         <Card className="mx-auto mt-8 max-w-3xl gap-6 sm:p-8">
           <div>
             <h3 className="text-lg font-semibold">Ou envie uma mensagem rápida</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Preencha abaixo e escolha por onde quer me mandar — o app do seu
-              dispositivo abre com tudo pronto.
+              Preencha abaixo — seu cliente de e-mail abre com tudo pronto.
             </p>
           </div>
 
@@ -128,21 +96,10 @@ export function Contact() {
               />
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button type="submit" className="flex-1">
-                <MessageCircle />
-                Enviar via WhatsApp
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={() => openChannel('email')}
-              >
-                <Mail />
-                Enviar via e-mail
-              </Button>
-            </div>
+            <Button type="submit" className="w-full sm:w-auto sm:self-start">
+              <Mail />
+              Enviar via e-mail
+            </Button>
           </form>
         </Card>
       </div>
