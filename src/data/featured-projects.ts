@@ -18,13 +18,14 @@ export const featuredProjects: FeaturedProject[] = [
     eyebrow: 'Projeto pessoal',
     tagline: 'Da conversa ao dossiê jurídico em menos de 2 minutos',
     description:
-      'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar.',
-    tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Tailwind CSS', 'shadcn/ui'],
+      'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar. Conta também com um assistente jurídico com IA, que responde dúvidas sobre direito brasileiro e sobre os próprios dados do escritório.',
+    tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Cohere', 'Tailwind CSS', 'shadcn/ui'],
     heroScreenshot: '/screenshots/lexnote/clientes.webp',
     gallery: [
       { src: '/screenshots/lexnote/atendimentos.webp', label: 'Atendimentos' },
       { src: '/screenshots/lexnote/agenda.webp', label: 'Agenda' },
-      { src: '/screenshots/lexnote/pendencias.webp', label: 'Documentos & Pendências' },
+      { src: '/screenshots/lexnote/pendencias.webp', label: 'Pendências' },
+      { src: '/screenshots/lexnote/assistente.webp', label: 'Assistente jurídico com IA' },
       { src: '/screenshots/lexnote/login.webp', label: 'Login' },
     ],
     status: 'private',
