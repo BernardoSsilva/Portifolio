@@ -36,7 +36,7 @@ export const featuredProjects: FeaturedProject[] = [
     eyebrow: 'Colaboração — Desenvolvedor Backend',
     tagline: 'Sua barbearia não precisa parar de atender para agendar clientes',
     description:
-      'Agendamento online para barbearias, com confirmação automática e gestão completa da agenda. Atuo como desenvolvedor backend: toda a camada de API, banco de dados, permissões, rotas, autenticação e integração com o frontend.',
+      'Agendamento online para barbearias: o cliente escolhe serviço, profissional e horário sozinho, com confirmação automática. O painel reúne agenda por profissional, indicadores financeiros (faturamento, ticket médio, cancelamentos), fidelização de clientes e gestão de jornada da equipe. Atuo como desenvolvedor backend: API, banco de dados, autenticação, permissões e integração com o frontend.',
     tags: ['API REST', 'Banco de Dados', 'Autenticação', 'Permissões'],
     heroScreenshot: '/screenshots/navla/hero.webp',
     gallery: [
