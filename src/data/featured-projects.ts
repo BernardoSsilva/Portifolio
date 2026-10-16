@@ -20,7 +20,7 @@ export const featuredProjects: FeaturedProject[] = [
     description:
       'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar. Conta também com um assistente jurídico com IA, que responde dúvidas sobre direito brasileiro e sobre os próprios dados do escritório.',
     tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Cohere', 'Tailwind CSS', 'shadcn/ui'],
-    heroScreenshot: '/screenshots/lexnote/clientes.webp',
+    heroScreenshot: '/screenshots/lexnote/dashboard.webp',
     gallery: [
       { src: '/screenshots/lexnote/atendimentos.webp', label: 'Atendimentos' },
       { src: '/screenshots/lexnote/agenda.webp', label: 'Agenda' },
@@ -48,17 +48,5 @@ export const featuredProjects: FeaturedProject[] = [
     ],
     status: 'live',
     cta: { label: 'Ver aplicação', href: 'https://navla.vercel.app/' },
-  },
-  {
-    slug: 'nesso',
-    name: 'Nesso',
-    eyebrow: 'Colaboração — Full Stack (equipe de 3)',
-    tagline: 'Gestão jurídica de prazos, horas e faturamento',
-    description:
-      'Projeto em equipe com outros 2 desenvolvedores, ainda em construção. Atuo nos módulos de registro de usuários, clientes, relacionamento, permissões e audit logs, entre outras frentes em desenvolvimento.',
-    tags: ['Full Stack', 'Permissões', 'Audit Log'],
-    heroScreenshot: '/screenshots/nesso/hero.webp',
-    gallery: [],
-    status: 'in-progress',
   },
 ]
