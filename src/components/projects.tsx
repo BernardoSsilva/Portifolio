@@ -36,7 +36,9 @@ const LANE_COUNT = 3
 const springConfig = { stiffness: 220, damping: 40, bounce: 0 }
 
 /** Deslocamento vertical por "pista" (posição na coluna): cada uma anda a uma velocidade e direção
- * diferente ao rolar a seção, dando profundidade ao grid — a mesma ideia do paralaxe do Hero. */
+ * diferente ao rolar a seção, dando profundidade ao grid — a mesma ideia do paralaxe do Hero. Só
+ * faz sentido com 3 colunas (lg:): com 1 ou 2 colunas, cards consecutivos caem na mesma coluna e,
+ * como cada um anda numa pista diferente, podem se sobrepor — por isso fica desligado abaixo do lg. */
 function useParallaxLanes(progress: MotionValue<number>) {
   const lane0 = useSpring(useTransform(progress, [0, 1], [60, -60]), springConfig)
   const lane1 = useSpring(useTransform(progress, [0, 1], [-40, 40]), springConfig)
@@ -44,11 +46,26 @@ function useParallaxLanes(progress: MotionValue<number>) {
   return [lane0, lane1, lane2]
 }
 
+function useIsLgUp() {
+  const [isLgUp, setIsLgUp] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsLgUp(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return isLgUp
+}
+
 export function Projects() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: gridRef, offset: ['start end', 'end start'] })
   const laneY = useParallaxLanes(scrollYProgress)
+  const isLgUp = useIsLgUp()
 
   return (
     <section id="projects" className="section-padding bg-secondary/30">
@@ -73,6 +90,7 @@ export function Projects() {
               key={project.title}
               project={project}
               laneY={laneY[index % LANE_COUNT]}
+              parallaxEnabled={isLgUp}
               onOpenImage={(localIndex) =>
                 setLightboxIndex((galleryStartIndex.get(project.title) ?? 0) + localIndex)
               }
@@ -98,10 +116,12 @@ export function Projects() {
 function ProjectCard({
   project,
   laneY,
+  parallaxEnabled,
   onOpenImage,
 }: {
   project: Project
   laneY: MotionValue<number>
+  parallaxEnabled: boolean
   onOpenImage: (localIndex: number) => void
 }) {
   const images = project.images ?? []
@@ -128,7 +148,7 @@ function ProjectCard({
   }
 
   return (
-    <motion.div style={{ y: laneY }} className="h-full">
+    <motion.div style={{ y: parallaxEnabled ? laneY : 0 }} className="h-full">
       <CardContainer
         containerClassName="h-full w-full items-stretch py-0"
         className="w-full"
