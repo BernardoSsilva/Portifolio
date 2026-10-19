@@ -67,8 +67,8 @@ A seção `FeaturedProjects` (`src/components/featured-projects.tsx`) mostra um
 slider com dois projetos dentro de um `MacbookScroll`, com abas e setas para
 alternar entre eles:
 
-- **LexNote** — projeto pessoal, repositório privado (botão de WhatsApp para
-  pedir demonstração).
+- **LexNote** — projeto pessoal, repositório privado (botão "Ver aplicação"
+  linkando para a instância em produção).
 - **NAVLA** — colaboração em equipe onde atuo como desenvolvedor backend
   (link para a aplicação em produção).
 

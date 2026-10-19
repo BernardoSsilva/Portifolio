@@ -1,4 +1,4 @@
-import { ArrowUpRight, ChevronLeft, ChevronRight, Lock, Maximize2, MessageCircle, Rocket, Sparkles, Wrench } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft, ChevronRight, Lock, Maximize2, Rocket, Sparkles, Wrench } from 'lucide-react'
 import { useState } from 'react'
 
 import { type LightboxImage, ImageLightbox } from '@/components/image-lightbox'
@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MacbookScroll } from '@/components/ui/macbook-scroll'
 import { featuredProjects } from '@/data/featured-projects'
-import { getWhatsappLink } from '@/data/site'
 import { cn } from '@/lib/utils'
 
 const statusMeta = {
@@ -111,19 +110,6 @@ export function FeaturedProjects() {
                 <a href={active.cta.href} target="_blank" rel="noreferrer">
                   {active.cta.label}
                   <ArrowUpRight />
-                </a>
-              </Button>
-            ) : active.status === 'private' ? (
-              <Button size="sm" asChild>
-                <a
-                  href={getWhatsappLink(
-                    `Olá, Bernardo! Vi o ${active.name} no seu portfólio e adoraria conhecer mais.`,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <MessageCircle />
-                  Pedir uma demonstração
                 </a>
               </Button>
             ) : null}

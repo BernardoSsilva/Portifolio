@@ -29,6 +29,7 @@ export const featuredProjects: FeaturedProject[] = [
       { src: '/screenshots/lexnote/login.webp', label: 'Login' },
     ],
     status: 'private',
+    cta: { label: 'Ver aplicação', href: 'https://lex-note-core.vercel.app' },
   },
   {
     slug: 'navla',
