@@ -38,7 +38,7 @@ export const featuredProjects: FeaturedProject[] = [
     tagline: 'Sua barbearia não precisa parar de atender para agendar clientes',
     description:
       'Agendamento online para barbearias: o cliente escolhe serviço, profissional e horário sozinho, com confirmação automática. O painel reúne agenda por profissional, indicadores financeiros (faturamento, ticket médio, cancelamentos), fidelização de clientes e gestão de jornada da equipe. Atuo como desenvolvedor backend: API, banco de dados, autenticação, permissões e integração com o frontend.',
-    tags: ['API REST', 'Banco de Dados', 'Autenticação', 'Permissões'],
+    tags: ['Next.js', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'JWT'],
     heroScreenshot: '/screenshots/navla/hero.webp',
     gallery: [
       { src: '/screenshots/navla/dashboard.webp', label: 'Painel do dia' },
