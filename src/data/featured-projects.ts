@@ -6,6 +6,7 @@ export type FeaturedProject = {
   description: string
   tags: string[]
   heroScreenshot: string
+  heroVideo?: string
   gallery: { src: string; label: string }[]
   status: 'private' | 'live' | 'in-progress'
   cta?: { label: string; href: string }
@@ -21,6 +22,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar. Conta também com um assistente jurídico com IA, que responde dúvidas sobre direito brasileiro e sobre os próprios dados do escritório.',
     tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Cohere', 'Tailwind CSS', 'shadcn/ui'],
     heroScreenshot: '/screenshots/lexnote/dashboard.webp',
+    heroVideo: '/videos/lexnote/demo.mp4',
     gallery: [
       { src: '/screenshots/lexnote/atendimentos.webp', label: 'Atendimentos' },
       { src: '/screenshots/lexnote/agenda.webp', label: 'Agenda' },

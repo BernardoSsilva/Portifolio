@@ -1,15 +1,18 @@
-import { AnimatePresence, type MotionValue, motion, useScroll, useTransform } from 'framer-motion'
+import { AnimatePresence, type MotionStyle, type MotionValue, motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
+import { useAutoplayInView } from '@/hooks/use-autoplay-in-view'
 import { cn } from '@/lib/utils'
 
 export function MacbookScroll({
   src,
+  videoSrc,
   title,
   badge,
   className,
 }: {
   src: string
+  videoSrc?: string
   title?: React.ReactNode
   badge?: React.ReactNode
   className?: string
@@ -38,7 +41,7 @@ export function MacbookScroll({
       )}
 
       {/* Lid */}
-      <Lid src={src} scaleX={scaleX} scaleY={scaleY} rotate={rotate} bleed={bleed} />
+      <Lid src={src} videoSrc={videoSrc} scaleX={scaleX} scaleY={scaleY} rotate={rotate} bleed={bleed} />
 
       {/* Base */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -66,12 +69,14 @@ export function MacbookScroll({
 
 function Lid({
   src,
+  videoSrc,
   scaleX,
   scaleY,
   rotate,
   bleed,
 }: {
   src: string
+  videoSrc?: string
   scaleX: MotionValue<number>
   scaleY: MotionValue<number>
   rotate: MotionValue<number>
@@ -79,6 +84,7 @@ function Lid({
 }) {
   const negBleed = useTransform(bleed, (v) => -v)
   const bledSize = useTransform(bleed, (v) => `calc(100% + ${v * 2}px)`)
+  const screenStyle = { top: negBleed, right: negBleed, bottom: negBleed, left: negBleed, width: bledSize, height: bledSize }
 
   return (
     <div className="relative [perspective:800px]">
@@ -102,21 +108,47 @@ function Lid({
           style={{ top: negBleed, right: negBleed, bottom: negBleed, left: negBleed }}
           className="absolute rounded-lg bg-[#272729]"
         />
-        <AnimatePresence mode="sync">
-          <motion.img
-            key={src}
-            src={src}
-            alt="screenshot"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            style={{ top: negBleed, right: negBleed, bottom: negBleed, left: negBleed, width: bledSize, height: bledSize }}
-            className="absolute max-w-none rounded-lg object-cover object-top shadow-xl"
-          />
-        </AnimatePresence>
+        {videoSrc ? (
+          <ScreenVideo key={videoSrc} src={videoSrc} style={screenStyle} />
+        ) : (
+          <AnimatePresence mode="sync">
+            <motion.img
+              key={src}
+              src={src}
+              alt="screenshot"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              style={screenStyle}
+              className="absolute max-w-none rounded-lg object-cover object-top shadow-xl"
+            />
+          </AnimatePresence>
+        )}
       </motion.div>
     </div>
+  )
+}
+
+function ScreenVideo({ src, style }: { src: string; style: MotionStyle }) {
+  const videoRef = useAutoplayInView<HTMLVideoElement>()
+
+  return (
+    <motion.video
+      ref={videoRef}
+      autoPlay
+      loop
+      muted
+      playsInline
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35 }}
+      style={style}
+      className="absolute max-w-none rounded-lg object-cover object-top shadow-xl"
+    >
+      <source src={src.replace(/\.mp4$/, '.webm')} type="video/webm" />
+      <source src={src} type="video/mp4" />
+    </motion.video>
   )
 }
 

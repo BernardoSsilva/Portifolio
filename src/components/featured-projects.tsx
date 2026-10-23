@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MacbookScroll } from '@/components/ui/macbook-scroll'
 import { featuredProjects } from '@/data/featured-projects'
+import { useAutoplayInView } from '@/hooks/use-autoplay-in-view'
 import { cn } from '@/lib/utils'
 
 const statusMeta = {
@@ -17,6 +18,7 @@ const statusMeta = {
 export function FeaturedProjects() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const mobileVideoRef = useAutoplayInView<HTMLVideoElement>()
   const active = featuredProjects[activeIndex]
   const StatusIcon = statusMeta[active.status].icon
 
@@ -117,24 +119,39 @@ export function FeaturedProjects() {
         </div>
 
         <div className="hidden md:block">
-          <MacbookScroll src={active.heroScreenshot} />
+          <MacbookScroll src={active.heroScreenshot} videoSrc={active.heroVideo} />
         </div>
 
-        <button
-          type="button"
-          onClick={() => setLightboxIndex(0)}
-          className="group/image relative mx-auto mt-10 block max-w-lg overflow-hidden rounded-2xl border border-border/60 shadow-xl shadow-primary/10 outline-none md:hidden"
-          aria-label={`Ampliar captura de tela — ${active.name}`}
-        >
-          <img
-            src={active.heroScreenshot}
-            alt={`${active.name} — tela principal`}
-            className="aspect-[16/10] w-full object-cover object-top"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
-            <Maximize2 className="size-6 text-white" />
-          </div>
-        </button>
+        {active.heroVideo ? (
+          <video
+            key={active.heroVideo}
+            ref={mobileVideoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="relative mx-auto mt-10 block aspect-[16/10] w-full max-w-lg overflow-hidden rounded-2xl border border-border/60 object-cover object-top shadow-xl shadow-primary/10 md:hidden"
+          >
+            <source src={active.heroVideo.replace(/\.mp4$/, '.webm')} type="video/webm" />
+            <source src={active.heroVideo} type="video/mp4" />
+          </video>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setLightboxIndex(0)}
+            className="group/image relative mx-auto mt-10 block max-w-lg overflow-hidden rounded-2xl border border-border/60 shadow-xl shadow-primary/10 outline-none md:hidden"
+            aria-label={`Ampliar captura de tela — ${active.name}`}
+          >
+            <img
+              src={active.heroScreenshot}
+              alt={`${active.name} — tela principal`}
+              className="aspect-[16/10] w-full object-cover object-top"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
+              <Maximize2 className="size-6 text-white" />
+            </div>
+          </button>
+        )}
 
         {active.gallery.length > 0 ? (
           <div
