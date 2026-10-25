@@ -30,7 +30,7 @@ Toda a informação de contato e conteúdo dinâmico fica em `src/data/`:
   carrossel automático ao passar o mouse sobre o card.
 - `src/data/skills.ts` — grupos de habilidades exibidos na seção "Sobre".
 - `src/data/featured-projects.ts` — texto e capturas de tela do slider de
-  projetos em destaque (LexNote, NAVLA e Nesso).
+  projetos em destaque (LexNote e NAVLA).
 
 Capturas de tela ficam em `public/screenshots/` (formato `.webp`, otimizadas,
 proporção 16:10 para não cortar o conteúdo nos cards).
@@ -52,9 +52,11 @@ proporção 16:10 para não cortar o conteúdo nos cards).
   - `three-d-card` — efeito "3D Card" nos cards de projeto: o card inteiro
     inclina em perspectiva conforme o cursor se move (`CardContainer`),
     com a imagem e o conteúdo em camadas de profundidade (`CardBody`/`CardItem`)
-  - `hero-parallax` — fundo do Hero com camadas de capturas de tela reais
-    em paralaxe (`useScroll` + `useTransform`/`useSpring`), que se afastam
-    e desaparecem conforme o usuário rola a página
+  - `hero-parallax` — fundo do Hero com 4 camadas de capturas de tela reais
+    em paralaxe (`useScroll` + `useTransform`/`useSpring`), cada uma com sua
+    própria velocidade, profundidade (`z`) e opacidade-base — quanto mais
+    "atrás" a camada, mais devagar ela anda e mais sutil fica — que se
+    afastam e desaparecem conforme o usuário rola a página
 - `Dialog` (Radix UI) como base do `ImageLightbox`, usado para ampliar
   qualquer captura de tela do site com navegação entre imagens
 - Ícones [lucide-react](https://lucide.dev)
@@ -62,25 +64,21 @@ proporção 16:10 para não cortar o conteúdo nos cards).
 ## Slider de projetos em destaque
 
 A seção `FeaturedProjects` (`src/components/featured-projects.tsx`) mostra um
-slider com três projetos dentro de um `MacbookScroll`, com abas e setas para
+slider com dois projetos dentro de um `MacbookScroll`, com abas e setas para
 alternar entre eles:
 
-- **LexNote** — projeto pessoal, repositório privado (botão de WhatsApp para
-  pedir demonstração).
+- **LexNote** — projeto pessoal, repositório privado (botão "Ver aplicação"
+  linkando para a instância em produção).
 - **NAVLA** — colaboração em equipe onde atuo como desenvolvedor backend
   (link para a aplicação em produção).
-- **Nesso** — colaboração em equipe (3 desenvolvedores) ainda em
-  desenvolvimento como full stack.
 
-As capturas de tela do NAVLA (`public/screenshots/navla/`) são reais,
-extraídas rodando o próprio frontend localmente em modo de demonstração
-(dados em memória, sem precisar do backend em produção). As do Nesso
-(`public/screenshots/nesso/`) foram recriadas em HTML/CSS a partir de
-imagens de referência enviadas pelo autor, já que o frontend do Nesso ainda
-não está publicado em lugar nenhum (o ambiente de execução também não
-permite salvar imagens coladas diretamente no chat como arquivo). O mesmo
-vale para as capturas do projeto Imobiliária (`public/screenshots/imobiliaria/`),
-recriadas a partir de prints do frontend reestruturado.
+As capturas de tela do LexNote e do NAVLA (`public/screenshots/lexnote/` e
+`public/screenshots/navla/`) são reais, extraídas rodando os próprios apps
+localmente (o NAVLA em modo de demonstração, com dados em memória, sem
+precisar do backend em produção). O Nesso saiu do slider enquanto está em
+desenvolvimento e trocando de nome. O mesmo vale para as capturas do
+projeto Imobiliária (`public/screenshots/imobiliaria/`), recriadas a partir
+de prints do frontend reestruturado.
 
 ## Contato via WhatsApp e e-mail
 

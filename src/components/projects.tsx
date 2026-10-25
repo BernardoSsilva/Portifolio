@@ -1,3 +1,4 @@
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion'
 import { ArrowUpRight, Maximize2, Server, Star } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -31,8 +32,40 @@ const galleryStartIndex = new Map<string, number>()
   }
 }
 
+const LANE_COUNT = 3
+const springConfig = { stiffness: 220, damping: 40, bounce: 0 }
+
+/** Deslocamento vertical por "pista" (posição na coluna): cada uma anda a uma velocidade e direção
+ * diferente ao rolar a seção, dando profundidade ao grid — a mesma ideia do paralaxe do Hero. Só
+ * faz sentido com 3 colunas (lg:): com 1 ou 2 colunas, cards consecutivos caem na mesma coluna e,
+ * como cada um anda numa pista diferente, podem se sobrepor — por isso fica desligado abaixo do lg. */
+function useParallaxLanes(progress: MotionValue<number>) {
+  const lane0 = useSpring(useTransform(progress, [0, 1], [60, -60]), springConfig)
+  const lane1 = useSpring(useTransform(progress, [0, 1], [-40, 40]), springConfig)
+  const lane2 = useSpring(useTransform(progress, [0, 1], [45, -45]), springConfig)
+  return [lane0, lane1, lane2]
+}
+
+function useIsLgUp() {
+  const [isLgUp, setIsLgUp] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsLgUp(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return isLgUp
+}
+
 export function Projects() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: gridRef, offset: ['start end', 'end start'] })
+  const laneY = useParallaxLanes(scrollYProgress)
+  const isLgUp = useIsLgUp()
 
   return (
     <section id="projects" className="section-padding bg-secondary/30">
@@ -51,11 +84,13 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
+        <div ref={gridRef} className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, index) => (
             <ProjectCard
               key={project.title}
               project={project}
+              laneY={laneY[index % LANE_COUNT]}
+              parallaxEnabled={isLgUp}
               onOpenImage={(localIndex) =>
                 setLightboxIndex((galleryStartIndex.get(project.title) ?? 0) + localIndex)
               }
@@ -80,9 +115,13 @@ export function Projects() {
 
 function ProjectCard({
   project,
+  laneY,
+  parallaxEnabled,
   onOpenImage,
 }: {
   project: Project
+  laneY: MotionValue<number>
+  parallaxEnabled: boolean
   onOpenImage: (localIndex: number) => void
 }) {
   const images = project.images ?? []
@@ -109,101 +148,103 @@ function ProjectCard({
   }
 
   return (
-    <CardContainer
-      containerClassName="h-full w-full items-stretch py-0"
-      className="w-full"
-      onMouseMove={spotlight.onMouseMove}
-      onMouseEnter={spotlight.onMouseEnter}
-      onMouseLeave={spotlight.onMouseLeave}
-    >
-      <CardBody className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10">
-        {spotlight.spotlightOverlay}
+    <motion.div style={{ y: parallaxEnabled ? laneY : 0 }} className="h-full">
+      <CardContainer
+        containerClassName="h-full w-full items-stretch py-0"
+        className="w-full"
+        onMouseMove={spotlight.onMouseMove}
+        onMouseEnter={spotlight.onMouseEnter}
+        onMouseLeave={spotlight.onMouseLeave}
+      >
+        <CardBody className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card text-card-foreground shadow-sm transition-shadow duration-300 hover:shadow-lg hover:shadow-primary/10">
+          {spotlight.spotlightOverlay}
 
-        {images.length > 0 ? (
-          <CardItem
-            as="button"
-            type="button"
-            translateZ={60}
-            onMouseEnter={startCarousel}
-            onMouseLeave={stopCarousel}
-            onClick={() => onOpenImage(frame)}
-            className="group/image relative aspect-[16/10] w-full overflow-hidden outline-none"
-            aria-label={`Ampliar captura de tela de ${project.title}`}
-          >
-            <img
-              src={images[frame]}
-              alt={`Captura de tela — ${project.title}`}
-              loading="lazy"
-              className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
-            />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
-              <Maximize2 className="size-6 text-white" />
-            </div>
-            {images.length > 1 ? (
-              <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
-                {images.map((src, i) => (
-                  <span
-                    key={src}
-                    className={cn(
-                      'size-1.5 rounded-full transition-colors',
-                      i === frame ? 'bg-white' : 'bg-white/40',
-                    )}
-                  />
+          {images.length > 0 ? (
+            <CardItem
+              as="button"
+              type="button"
+              translateZ={60}
+              onMouseEnter={startCarousel}
+              onMouseLeave={stopCarousel}
+              onClick={() => onOpenImage(frame)}
+              className="group/image relative aspect-[16/10] w-full overflow-hidden outline-none"
+              aria-label={`Ampliar captura de tela de ${project.title}`}
+            >
+              <img
+                src={images[frame]}
+                alt={`Captura de tela — ${project.title}`}
+                loading="lazy"
+                className="size-full object-cover object-top transition-transform duration-300 group-hover/image:scale-105"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-200 group-hover/image:bg-black/40 group-hover/image:opacity-100">
+                <Maximize2 className="size-6 text-white" />
+              </div>
+              {images.length > 1 ? (
+                <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+                  {images.map((src, i) => (
+                    <span
+                      key={src}
+                      className={cn(
+                        'size-1.5 rounded-full transition-colors',
+                        i === frame ? 'bg-white' : 'bg-white/40',
+                      )}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </CardItem>
+          ) : (
+            <CardItem
+              translateZ={60}
+              className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-lilac-glow"
+            >
+              <Server className="size-12 text-primary/50" strokeWidth={1.25} />
+            </CardItem>
+          )}
+
+          <div className="flex flex-1 flex-col gap-4 p-6">
+            <CardItem translateZ={40} className="w-full">
+              <CardHeader className="p-0">
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle>{project.title}</CardTitle>
+                  {project.stars > 0 ? (
+                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                      <Star className="size-3.5 fill-primary text-primary" />
+                      {project.stars}
+                    </span>
+                  ) : null}
+                </div>
+                <CardDescription>{project.description}</CardDescription>
+              </CardHeader>
+            </CardItem>
+
+            <CardItem translateZ={30} className="w-full">
+              <CardContent className="p-0">
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </CardItem>
+
+            <CardItem translateZ={50} className="mt-auto w-full">
+              <CardFooter className="flex-wrap p-0">
+                {project.links.map((link) => (
+                  <Button key={link.url} variant="outline" size="sm" asChild>
+                    <a href={link.url} target="_blank" rel="noreferrer">
+                      {link.label}
+                      <ArrowUpRight />
+                    </a>
+                  </Button>
                 ))}
-              </div>
-            ) : null}
-          </CardItem>
-        ) : (
-          <CardItem
-            translateZ={60}
-            className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-lilac-glow"
-          >
-            <Server className="size-12 text-primary/50" strokeWidth={1.25} />
-          </CardItem>
-        )}
-
-        <div className="flex flex-1 flex-col gap-4 p-6">
-          <CardItem translateZ={40} className="w-full">
-            <CardHeader className="p-0">
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle>{project.title}</CardTitle>
-                {project.stars > 0 ? (
-                  <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
-                    <Star className="size-3.5 fill-primary text-primary" />
-                    {project.stars}
-                  </span>
-                ) : null}
-              </div>
-              <CardDescription>{project.description}</CardDescription>
-            </CardHeader>
-          </CardItem>
-
-          <CardItem translateZ={30} className="w-full">
-            <CardContent className="p-0">
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-          </CardItem>
-
-          <CardItem translateZ={50} className="mt-auto w-full">
-            <CardFooter className="flex-wrap p-0">
-              {project.links.map((link) => (
-                <Button key={link.url} variant="outline" size="sm" asChild>
-                  <a href={link.url} target="_blank" rel="noreferrer">
-                    {link.label}
-                    <ArrowUpRight />
-                  </a>
-                </Button>
-              ))}
-            </CardFooter>
-          </CardItem>
-        </div>
-      </CardBody>
-    </CardContainer>
+              </CardFooter>
+            </CardItem>
+          </div>
+        </CardBody>
+      </CardContainer>
+    </motion.div>
   )
 }

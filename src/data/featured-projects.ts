@@ -6,6 +6,7 @@ export type FeaturedProject = {
   description: string
   tags: string[]
   heroScreenshot: string
+  heroVideo?: string
   gallery: { src: string; label: string }[]
   status: 'private' | 'live' | 'in-progress'
   cta?: { label: string; href: string }
@@ -18,16 +19,19 @@ export const featuredProjects: FeaturedProject[] = [
     eyebrow: 'Projeto pessoal',
     tagline: 'Da conversa ao dossiê jurídico em menos de 2 minutos',
     description:
-      'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar.',
-    tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Tailwind CSS', 'shadcn/ui'],
-    heroScreenshot: '/screenshots/lexnote/clientes.webp',
+      'Aplicação jurídica que transforma o atendimento com o cliente em um dossiê completo: a IA organiza fatos, prazos e pendências automaticamente, enquanto agenda, clientes e cobranças ficam centralizados em um só lugar. Conta também com um assistente jurídico com IA, que responde dúvidas sobre direito brasileiro e sobre os próprios dados do escritório.',
+    tags: ['Next.js', 'NestJS', 'Prisma', 'PostgreSQL', 'Stripe', 'Cohere', 'Tailwind CSS', 'shadcn/ui'],
+    heroScreenshot: '/screenshots/lexnote/dashboard.webp',
+    heroVideo: '/videos/lexnote/demo.mp4',
     gallery: [
       { src: '/screenshots/lexnote/atendimentos.webp', label: 'Atendimentos' },
       { src: '/screenshots/lexnote/agenda.webp', label: 'Agenda' },
-      { src: '/screenshots/lexnote/pendencias.webp', label: 'Documentos & Pendências' },
+      { src: '/screenshots/lexnote/pendencias.webp', label: 'Pendências' },
+      { src: '/screenshots/lexnote/assistente.webp', label: 'Assistente jurídico com IA' },
       { src: '/screenshots/lexnote/login.webp', label: 'Login' },
     ],
     status: 'private',
+    cta: { label: 'Ver aplicação', href: 'https://lex-note-core.vercel.app' },
   },
   {
     slug: 'navla',
@@ -35,8 +39,8 @@ export const featuredProjects: FeaturedProject[] = [
     eyebrow: 'Colaboração — Desenvolvedor Backend',
     tagline: 'Sua barbearia não precisa parar de atender para agendar clientes',
     description:
-      'Agendamento online para barbearias, com confirmação automática e gestão completa da agenda. Atuo como desenvolvedor backend: toda a camada de API, banco de dados, permissões, rotas, autenticação e integração com o frontend.',
-    tags: ['API REST', 'Banco de Dados', 'Autenticação', 'Permissões'],
+      'Agendamento online para barbearias: o cliente escolhe serviço, profissional e horário sozinho, com confirmação automática. O painel reúne agenda por profissional, indicadores financeiros (faturamento, ticket médio, cancelamentos), fidelização de clientes e gestão de jornada da equipe. Atuo como desenvolvedor backend: API, banco de dados, autenticação, permissões e integração com o frontend.',
+    tags: ['Next.js', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'JWT'],
     heroScreenshot: '/screenshots/navla/hero.webp',
     gallery: [
       { src: '/screenshots/navla/dashboard.webp', label: 'Painel do dia' },
@@ -47,17 +51,5 @@ export const featuredProjects: FeaturedProject[] = [
     ],
     status: 'live',
     cta: { label: 'Ver aplicação', href: 'https://navla.vercel.app/' },
-  },
-  {
-    slug: 'nesso',
-    name: 'Nesso',
-    eyebrow: 'Colaboração — Full Stack (equipe de 3)',
-    tagline: 'Gestão jurídica de prazos, horas e faturamento',
-    description:
-      'Projeto em equipe com outros 2 desenvolvedores, ainda em construção. Atuo nos módulos de registro de usuários, clientes, relacionamento, permissões e audit logs, entre outras frentes em desenvolvimento.',
-    tags: ['Full Stack', 'Permissões', 'Audit Log'],
-    heroScreenshot: '/screenshots/nesso/hero.webp',
-    gallery: [],
-    status: 'in-progress',
   },
 ]
