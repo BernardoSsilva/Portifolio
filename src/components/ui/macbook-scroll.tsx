@@ -27,6 +27,7 @@ export function MacbookScroll({
   const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, 1])
   const rotate = useTransform(scrollYProgress, [0, 1], [-24, 0])
   const bleed = useTransform(scrollYProgress, [0.85, 1], [0, 12], { clamp: true })
+  const bottomBleed = useTransform(scrollYProgress, [0.85, 1], [0, 240], { clamp: true })
 
   return (
     <div
@@ -41,7 +42,15 @@ export function MacbookScroll({
       )}
 
       {/* Lid */}
-      <Lid src={src} videoSrc={videoSrc} scaleX={scaleX} scaleY={scaleY} rotate={rotate} bleed={bleed} />
+      <Lid
+        src={src}
+        videoSrc={videoSrc}
+        scaleX={scaleX}
+        scaleY={scaleY}
+        rotate={rotate}
+        bleed={bleed}
+        bottomBleed={bottomBleed}
+      />
 
       {/* Base */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -74,6 +83,7 @@ function Lid({
   scaleY,
   rotate,
   bleed,
+  bottomBleed,
 }: {
   src: string
   videoSrc?: string
@@ -81,10 +91,14 @@ function Lid({
   scaleY: MotionValue<number>
   rotate: MotionValue<number>
   bleed: MotionValue<number>
+  bottomBleed: MotionValue<number>
 }) {
   const negBleed = useTransform(bleed, (v) => -v)
-  const bledSize = useTransform(bleed, (v) => `calc(100% + ${v * 2}px)`)
-  const screenStyle = { top: negBleed, right: negBleed, bottom: negBleed, left: negBleed, width: bledSize, height: bledSize }
+  // O fundo "arrasta" bem mais pra baixo que os outros lados, até passar um pouco do fim do notebook.
+  const negBottomBleed = useTransform([bleed, bottomBleed], ([b, bb]: number[]) => -(b + bb))
+  const bledWidth = useTransform(bleed, (v) => `calc(100% + ${v * 2}px)`)
+  const bledHeight = useTransform([bleed, bottomBleed], ([b, bb]: number[]) => `calc(100% + ${b * 2 + bb}px)`)
+  const screenStyle = { top: negBleed, right: negBleed, bottom: negBottomBleed, left: negBleed, width: bledWidth, height: bledHeight }
 
   return (
     <div className="relative [perspective:800px]">
@@ -105,7 +119,7 @@ function Lid({
         className="absolute inset-0 h-[20rem] w-[32rem] rounded-2xl bg-[#010101] p-2"
       >
         <motion.div
-          style={{ top: negBleed, right: negBleed, bottom: negBleed, left: negBleed }}
+          style={{ top: negBleed, right: negBleed, bottom: negBottomBleed, left: negBleed }}
           className="absolute rounded-lg bg-[#272729]"
         />
         {videoSrc ? (
